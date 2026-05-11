@@ -1,0 +1,66 @@
+name: Publish Tenki Sandbox Template
+description: Create, update, build, and publish Tenki sandbox templates through the tenki CLI.
+author: Tenki Cloud
+inputs:
+  mode:
+    description: create, update, build-only, or publish-only.
+    required: true
+  project-id:
+    description: Tenki project ID.
+    required: true
+  workspace-id:
+    description: Tenki workspace ID. Required for create.
+    required: false
+  name:
+    description: Template name. Required for create.
+    required: false
+  template-id:
+    description: Template ID. Required for update, build-only, and publish-only.
+    required: false
+  setup-script:
+    description: Inline setup script.
+    required: false
+  setup-script-path:
+    description: Path to setup script, relative to GITHUB_WORKSPACE unless absolute.
+    required: false
+  base-image-id:
+    description: Base image ID.
+    required: false
+  tags:
+    description: Comma-separated tags.
+    required: false
+  cpu:
+    description: CPU cores.
+    required: false
+  memory-mb:
+    description: Memory in MB.
+    required: false
+  disk-size-gb:
+    description: Disk size in GB.
+    required: false
+  env:
+    description: Newline-separated env var names to forward, or * for TENKI_TPL_ prefixed vars.
+    required: false
+  env-prefix:
+    description: Prefix used when env is *.
+    required: false
+    default: TENKI_TPL_
+  wait-timeout:
+    description: Build wait timeout.
+    required: false
+    default: 15m
+outputs:
+  template-id:
+    description: Template ID.
+  publication-id:
+    description: Publication ID, empty for build-only.
+  template-build-id:
+    description: Template build ID.
+  template-build-state:
+    description: Template build state.
+runs:
+  using: node20
+  main: dist/index.js
+branding:
+  icon: upload-cloud
+  color: blue

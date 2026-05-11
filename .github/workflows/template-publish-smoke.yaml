@@ -1,0 +1,39 @@
+name: template-publish smoke
+
+on:
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    env:
+      TENKI_API_ENDPOINT: ${{ secrets.TENKI_API_ENDPOINT }}
+      TENKI_AUTH_TOKEN: ${{ secrets.TENKI_AUTH_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./setup-cli
+      - uses: ./template-publish
+        id: create
+        with:
+          mode: create
+          workspace-id: ${{ secrets.TENKI_WORKSPACE_ID }}
+          project-id: ${{ secrets.TENKI_PROJECT_ID }}
+          name: gha-smoke-${{ github.run_id }}
+          setup-script: echo smoke
+      - uses: ./template-publish
+        id: update
+        with:
+          mode: update
+          project-id: ${{ secrets.TENKI_PROJECT_ID }}
+          template-id: ${{ steps.create.outputs.template-id }}
+          setup-script: echo smoke update
+      - run: test "${{ steps.create.outputs.publication-id }}" != "${{ steps.update.outputs.publication-id }}"
+      - if: always() && steps.create.outputs.template-id != ''
+        run: |
+          for attempt in 1 2 3; do
+            if tenki sandbox template delete "${{ steps.create.outputs.template-id }}"; then
+              exit 0
+            fi
+            sleep 5
+          done
+          exit 1

@@ -1,0 +1,17 @@
+name: Setup Tenki CLI
+description: Install the tenki CLI on the runner
+author: Tenki Cloud
+inputs:
+  version:
+    description: 'Version to install: "latest", "vX.Y.Z", or "X.Y.Z". Default: latest.'
+    required: false
+    default: latest
+outputs:
+  tenki-version:
+    description: Resolved version installed
+runs:
+  using: node20
+  main: dist/index.js
+branding:
+  icon: download
+  color: blue

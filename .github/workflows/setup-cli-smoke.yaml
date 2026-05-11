@@ -1,0 +1,27 @@
+name: setup-cli smoke
+
+on:
+  push:
+    paths:
+      - "setup-cli/**"
+      - ".github/workflows/setup-cli-smoke.yaml"
+  pull_request:
+    paths:
+      - "setup-cli/**"
+      - ".github/workflows/setup-cli-smoke.yaml"
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./setup-cli
+        id: install
+      - run: |
+          tenki --version
+          test -n "${{ steps.install.outputs.tenki-version }}"
