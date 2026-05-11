@@ -52,7 +52,7 @@ Pin the CLI independently:
 ```yaml
 - uses: TenkiCloud/actions/setup-cli@v1
   with:
-    version: v0.6.2
+    version: vX.Y.Z
 ```
 
 ## Auth

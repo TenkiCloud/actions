@@ -27,7 +27,7 @@ Pin an exact CLI release:
 ```yaml
 - uses: TenkiCloud/actions/setup-cli@v1
   with:
-    version: v0.6.2
+    version: vX.Y.Z
 ```
 
 Use the output in later steps:
@@ -48,7 +48,7 @@ Use the output in later steps:
 
 | Output | Description |
 | --- | --- |
-| `tenki-version` | Resolved CLI version, for example `v0.6.2`. |
+| `tenki-version` | Resolved CLI version, for example `0.7.0`. Always without a leading `v`. |
 
 ## Supported runners
 
